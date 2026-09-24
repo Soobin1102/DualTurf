@@ -661,6 +661,17 @@
   border-radius: 2px;
 }
 
+.aboutLogoWrapper {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.aboutLogo {
+  height: 80px;
+  width: auto;
+  filter: drop-shadow(0 0 20px rgba(196, 255, 61, 0.15));
+}
+
 .aboutTeam {
   display: flex;
   flex-direction: column;

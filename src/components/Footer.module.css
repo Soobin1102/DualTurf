@@ -56,6 +56,15 @@
   margin-bottom: 1.5rem;
   line-height: 1;
   color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.footerLogoImg {
+  height: 50px;
+  width: auto;
+  filter: drop-shadow(0 0 10px rgba(196, 255, 61, 0.15));
 }
 
 .newsletterTitle {

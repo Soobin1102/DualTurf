@@ -16,6 +16,7 @@ export default function Header() {
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [liveProducts, setLiveProducts] = useState([])
+  const [jerseyGuideOpen, setJerseyGuideOpen] = useState(false)
 
   const {
     cart,
@@ -75,6 +76,7 @@ export default function Header() {
           {/* FAR LEFT CORNER: Dual Turf Logo */}
           <div className={styles.leftCorner}>
             <Link href="/" className={styles.logo}>
+              <img src="/images/logo.png" alt="Dual Turf" className={styles.logoImg} />
               <span>D</span><span className={styles.accentText}>ual</span> <span>T</span><span className={styles.accentText}>urf</span>
             </Link>
           </div>
@@ -96,6 +98,9 @@ export default function Header() {
             <div className={styles.shiftingWrapper}>
               <ShiftingDropDown />
             </div>
+            <button onClick={() => setJerseyGuideOpen(true)} className={styles.navLink}>
+              Jersey Guide
+            </button>
             <Link href="/#about-us" className={styles.navLink}>
               About Us
             </Link>
@@ -154,6 +159,7 @@ export default function Header() {
           <nav className={styles.mobileLinks}>
             <Link href="/" onClick={() => setMobileOpen(false)}>Home</Link>
             <Link href="/collections/all" onClick={() => setMobileOpen(false)}>Categories</Link>
+            <button onClick={() => { setMobileOpen(false); setJerseyGuideOpen(true); }}>Jersey Guide</button>
             <Link href="/#about-us" onClick={() => setMobileOpen(false)}>About Us</Link>
             <Link href="/contact" onClick={() => setMobileOpen(false)}>Contact Us</Link>
             {currentUser ? (
@@ -284,6 +290,164 @@ export default function Header() {
                 </Link>
               </div>
             )}
+          </div>
+        </div>
+      )}
+      {/* Jersey Guide Modal */}
+      {jerseyGuideOpen && (
+        <div
+          onClick={() => setJerseyGuideOpen(false)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.85)',
+            backdropFilter: 'blur(8px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 9999,
+            padding: '1rem',
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              backgroundColor: '#111111',
+              border: '1px solid #333333',
+              borderRadius: '12px',
+              maxWidth: '680px',
+              width: '100%',
+              overflow: 'hidden',
+              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.9)',
+              display: 'flex',
+              flexDirection: 'column',
+              maxHeight: '90vh',
+            }}
+          >
+            {/* Modal Header */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: '1rem 1.25rem',
+              borderBottom: '1px solid #222222',
+              backgroundColor: '#161616',
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <span style={{ fontSize: '1.2rem' }}>👕</span>
+                <h3 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 800, color: '#ffffff', letterSpacing: '0.05em' }}>
+                  JERSEY VERSION GUIDE
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setJerseyGuideOpen(false)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#aaaaaa',
+                  fontSize: '1.4rem',
+                  cursor: 'pointer',
+                  padding: '0.2rem 0.5rem',
+                  lineHeight: 1,
+                  borderRadius: '4px',
+                }}
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div style={{
+              padding: '1.5rem',
+              overflowY: 'auto',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1.75rem',
+            }}>
+              {/* Comparison Image */}
+              <div style={{
+                width: '100%',
+                borderRadius: '8px',
+                overflow: 'hidden',
+                border: '1px solid #2a2a2a',
+                backgroundColor: '#000000',
+                lineHeight: 0,
+              }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/images/jersey-guide.jpeg"
+                  alt="Player Version vs Master Version Comparison"
+                  width={680}
+                  height={850}
+                  style={{ width: '100%', height: 'auto', display: 'block' }}
+                />
+              </div>
+
+              {/* Player Version */}
+              <div style={{
+                padding: '1.25rem',
+                backgroundColor: 'rgba(196, 255, 61, 0.04)',
+                border: '1px solid rgba(196, 255, 61, 0.12)',
+                borderRadius: '8px',
+              }}>
+                <h4 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#c4ff3d', marginBottom: '0.875rem', letterSpacing: '0.04em' }}>
+                  ⚽ Player Version
+                </h4>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
+                  <li style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.75)', lineHeight: 1.6 }}>
+                    <strong style={{ color: '#ffffff' }}>Slim & Athletic Fit:</strong> Designed with a more fitted, streamlined silhouette for an athletic feel.
+                  </li>
+                  <li style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.75)', lineHeight: 1.6 }}>
+                    <strong style={{ color: '#ffffff' }}>Lightweight & Breathable:</strong> Made with a more textured, lightweight fabric that offers better airflow and comfort.
+                  </li>
+                  <li style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.75)', lineHeight: 1.6 }}>
+                    <strong style={{ color: '#ffffff' }}>Heat-Pressed Rubber Logos:</strong> Features sleek rubber logos that are heat-pressed onto the jersey for a lightweight finish.
+                  </li>
+                  <li style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.75)', lineHeight: 1.6 }}>
+                    <strong style={{ color: '#ffffff' }}>Best for Physical Activities:</strong> Ideal for sports, workouts, and active use where breathability and freedom of movement are important.
+                  </li>
+                </ul>
+              </div>
+
+              {/* Master Version */}
+              <div style={{
+                padding: '1.25rem',
+                backgroundColor: 'rgba(255, 255, 255, 0.03)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                borderRadius: '8px',
+              }}>
+                <h4 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#ffffff', marginBottom: '0.875rem', letterSpacing: '0.04em' }}>
+                  👕 Master Version
+                </h4>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
+                  <li style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.75)', lineHeight: 1.6 }}>
+                    <strong style={{ color: '#ffffff' }}>Regular Fit:</strong> Designed with a comfortable, relaxed fit suitable for everyday wear.
+                  </li>
+                  <li style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.75)', lineHeight: 1.6 }}>
+                    <strong style={{ color: '#ffffff' }}>Thicker Fabric:</strong> Uses a thicker, less-textured fabric that provides a more substantial feel.
+                  </li>
+                  <li style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.75)', lineHeight: 1.6 }}>
+                    <strong style={{ color: '#ffffff' }}>Embroidered Logos:</strong> Features traditionally embroidered logos for a classic and durable finish.
+                  </li>
+                  <li style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.75)', lineHeight: 1.6 }}>
+                    <strong style={{ color: '#ffffff' }}>Best for Regular Use:</strong> Ideal for casual wear, everyday use, and comfortable long-duration wear.
+                  </li>
+                </ul>
+              </div>
+
+              {/* Summary */}
+              <div style={{
+                padding: '0.875rem 1rem',
+                backgroundColor: '#0a0a0a',
+                borderRadius: '6px',
+                borderLeft: '3px solid #c4ff3d',
+              }}>
+                <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, margin: 0 }}>
+                  <strong style={{ color: '#c4ff3d' }}>In short:</strong> The <strong style={{ color: '#ffffff' }}>Player Version</strong> focuses on performance, breathability, and an athletic fit, while the <strong style={{ color: '#ffffff' }}>Master Version</strong> focuses on comfort, durability, and everyday wear.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       )}

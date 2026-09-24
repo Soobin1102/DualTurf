@@ -61,6 +61,13 @@
   opacity: 0.9;
 }
 
+.logoImg {
+  height: 40px;
+  width: auto;
+  margin-right: 0.5rem;
+  filter: drop-shadow(0 0 8px rgba(196, 255, 61, 0.2));
+}
+
 /* Mobile Hamburger */
 .hamburger {
   display: block;
@@ -195,7 +202,7 @@
   flex-direction: column;
   gap: 1.25rem;
 
-  a {
+  a, button {
     font-family: var(--font-display);
     font-size: 2rem;
     letter-spacing: 0.05em;
@@ -204,6 +211,14 @@
     display: flex;
     align-items: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
   }
 }
 

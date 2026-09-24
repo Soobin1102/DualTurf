@@ -30,7 +30,6 @@ export default function Footer() {
           <div className={styles.footerCol}>
             {/* Logo Dual Turf */}
             <div className={styles.logoBox}>
-              <img src="/images/logo.png" alt="Dual Turf" className={styles.footerLogoImg} />
               DUAL TURF
             </div>
 

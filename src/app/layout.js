@@ -9,6 +9,11 @@ import { AuthProvider } from '@/context/AuthContext'
 export const metadata = {
   title: 'DualTurf — Premium Football Jerseys & Kits',
   description: 'Shop official and replica football jerseys, retro classics, anthem jackets, and international kits across India.',
+  icons: {
+    icon: '/images/logo.png',
+    shortcut: '/images/logo.png',
+    apple: '/images/logo.png',
+  },
 }
 
 export const viewport = {

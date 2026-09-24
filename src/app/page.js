@@ -167,11 +167,6 @@ export default async function Home() {
             </div>
 
             <div className={styles.aboutTeam}>
-              <ScrollReveal direction="scale" delay={0.2}>
-                <div className={styles.aboutLogoWrapper}>
-                  <img src="/images/logo.png" alt="Dual Turf" className={styles.aboutLogo} />
-                </div>
-              </ScrollReveal>
               <ScrollReveal direction="up" delay={0.3}>
                 <p className={styles.teamIntro}>With love from the team behind the vision and journey of Dual Turf</p>
               </ScrollReveal>

@@ -243,18 +243,19 @@
   position: fixed;
   inset: 0;
   z-index: 200;
-  background-color: rgba(10, 10, 10, 0.95);
+  background-color: rgba(10, 10, 10, 0.96);
   backdrop-filter: blur(24px);
-  padding: 2rem;
+  padding: 1.5rem 2rem 2.5rem 2rem;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 }
 
 .mobileHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
 
 .mobileLogo {
@@ -285,6 +286,56 @@
     cursor: pointer;
     text-align: left;
     width: 100%;
+  }
+}
+
+.mobileCategoryContainer {
+  width: 100%;
+}
+
+.mobileCategoryToggleBtn {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+.categoryArrow {
+  font-size: 1rem;
+  color: var(--accent-color);
+  margin-left: 0.5rem;
+}
+
+.mobileSubLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-left: 0.85rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.75rem;
+  border-left: 2px solid rgba(196, 255, 61, 0.4);
+}
+
+.mobileSubLink {
+  font-family: inherit !important;
+  font-size: 1.05rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  padding: 0.45rem 0.65rem !important;
+  border: none !important;
+  border-bottom: none !important;
+  min-height: auto !important;
+  transition: all 0.2s ease !important;
+  border-radius: 6px;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem;
+
+  &:hover, &:active {
+    color: var(--accent-color, #c4ff3d) !important;
+    background: rgba(196, 255, 61, 0.08);
+    transform: translateX(4px);
   }
 }
 

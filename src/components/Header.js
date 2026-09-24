@@ -11,6 +11,7 @@ import styles from './Header.module.css'
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [mobileCategoriesOpen, setMobileCategoriesOpen] = useState(true)
   const pathname = usePathname()
   if (pathname === '/coming-soon') return null
   const [searchOpen, setSearchOpen] = useState(false)
@@ -76,7 +77,6 @@ export default function Header() {
           {/* FAR LEFT CORNER: Dual Turf Logo */}
           <div className={styles.leftCorner}>
             <Link href="/" className={styles.logo}>
-              <img src="/images/logo.png" alt="Dual Turf" className={styles.logoImg} />
               <span>D</span><span className={styles.accentText}>ual</span> <span>T</span><span className={styles.accentText}>urf</span>
             </Link>
           </div>
@@ -158,7 +158,35 @@ export default function Header() {
           </div>
           <nav className={styles.mobileLinks}>
             <Link href="/" onClick={() => setMobileOpen(false)}>Home</Link>
-            <Link href="/collections/all" onClick={() => setMobileOpen(false)}>Categories</Link>
+            <div className={styles.mobileCategoryContainer}>
+              <button 
+                type="button"
+                onClick={() => setMobileCategoriesOpen(!mobileCategoriesOpen)} 
+                className={styles.mobileCategoryToggleBtn}
+              >
+                <span>Categories</span>
+                <span className={styles.categoryArrow}>{mobileCategoriesOpen ? '▲' : '▼'}</span>
+              </button>
+              {mobileCategoriesOpen && (
+                <div className={styles.mobileSubLinks}>
+                  <Link href="/collections/2026-27-season-kits" className={styles.mobileSubLink} onClick={() => setMobileOpen(false)}>
+                    Club Kits (2026-27)
+                  </Link>
+                  <Link href="/collections/international-kits" className={styles.mobileSubLink} onClick={() => setMobileOpen(false)}>
+                    International Kits
+                  </Link>
+                  <Link href="/collections/retro-classics" className={styles.mobileSubLink} onClick={() => setMobileOpen(false)}>
+                    Retro Classics
+                  </Link>
+                  <Link href="/collections/jerseys-with-shorts" className={styles.mobileSubLink} onClick={() => setMobileOpen(false)}>
+                    Sets (Jersey with Shorts)
+                  </Link>
+                  <Link href="/collections/all" className={styles.mobileSubLink} onClick={() => setMobileOpen(false)}>
+                    All Products
+                  </Link>
+                </div>
+              )}
+            </div>
             <button onClick={() => { setMobileOpen(false); setJerseyGuideOpen(true); }}>Jersey Guide</button>
             <Link href="/#about-us" onClick={() => setMobileOpen(false)}>About Us</Link>
             <Link href="/contact" onClick={() => setMobileOpen(false)}>Contact Us</Link>

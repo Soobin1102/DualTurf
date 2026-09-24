@@ -368,6 +368,7 @@ export default function Header() {
               {/* Comparison Image */}
               <div style={{
                 width: '100%',
+                flexShrink: 0,
                 borderRadius: '8px',
                 overflow: 'hidden',
                 border: '1px solid #2a2a2a',

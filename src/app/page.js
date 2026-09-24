@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { HERO_SLIDES } from '@/data/products'
-import { getAllProducts } from '@/lib/sanity'
+import { getFeaturedProducts } from '@/lib/sanity'
 import ScrollReveal from '@/components/ScrollReveal'
 import QuickAddButton from '@/components/QuickAddButton'
 import styles from './page.module.css'
@@ -8,23 +8,7 @@ import styles from './page.module.css'
 export const revalidate = 0
 
 export default async function Home() {
-  const productsList = await getAllProducts()
-  
-  // Older jerseys shown originally in the Latest Drop
-  const olderJerseySlugs = [
-    'real-madrid-home-fan-version',
-    'fc-barcelona-home-fan-version',
-    'arsenal-home-fan-version',
-    'chelsea-home-fan-version',
-    'ac-milan-home-fan-version',
-    'bayern-munich-home-fan-version',
-    'portugal-pantera-negra-special-edition-fan-version',
-    'portugal-2026-away-fan-version',
-  ]
-
-  const latestDropProducts = olderJerseySlugs
-    .map(slug => (productsList || []).find(p => p.slug === slug))
-    .filter(Boolean)
+  const latestDropProducts = await getFeaturedProducts()
 
   return (
     <div className={styles.homeContainer}>

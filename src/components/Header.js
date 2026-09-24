@@ -74,13 +74,6 @@ export default function Header() {
     <>
       <header className={styles.header}>
         <div className={styles.headerFull}>
-          {/* FAR LEFT CORNER: Dual Turf Logo */}
-          <div className={styles.leftCorner}>
-            <Link href="/" className={styles.logo}>
-              <span>D</span><span className={styles.accentText}>ual</span> <span>T</span><span className={styles.accentText}>urf</span>
-            </Link>
-          </div>
-
           {/* Mobile Hamburger Button */}
           <button
             className={styles.hamburger}
@@ -89,6 +82,13 @@ export default function Header() {
           >
             {mobileOpen ? '✕' : '☰'}
           </button>
+
+          {/* Dual Turf Logo */}
+          <div className={styles.leftCorner}>
+            <Link href="/" className={styles.logo}>
+              <span>D</span><span className={styles.accentText}>ual</span> <span>T</span><span className={styles.accentText}>urf</span>
+            </Link>
+          </div>
 
           {/* EXACT MIDDLE: Home, Categories Shifting DropDown, Contact Us */}
           <nav className={styles.centerNav}>

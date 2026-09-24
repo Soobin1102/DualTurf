@@ -152,6 +152,70 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      {/* About Us Section */}
+      <section id="about-us" className={`${styles.section} ${styles.aboutSection}`}>
+        <div className={`container ${styles.aboutContainer}`}>
+          <ScrollReveal direction="up">
+            <h2 className={`font-display title-underline ${styles.sectionTitle}`}>ABOUT DUAL TURF</h2>
+          </ScrollReveal>
+
+          <div className={styles.aboutGrid}>
+            <div className={styles.aboutStory}>
+              <ScrollReveal direction="up" delay={0.2}>
+                <p className={styles.aboutText}>
+                  Dual Turf is a small business started by three college friends with a shared passion for sports and a vision to make quality jerseys more accessible.
+                </p>
+              </ScrollReveal>
+              <ScrollReveal direction="up" delay={0.3}>
+                <p className={styles.aboutText}>
+                  We offer a growing collection of sports jerseys at convenient and reasonable prices, bringing options for fans of different sports, including football and cricket. From popular teams and players to different styles and versions, we aim to provide something for every sports enthusiast.
+                </p>
+              </ScrollReveal>
+              <ScrollReveal direction="up" delay={0.4}>
+                <p className={styles.aboutText}>
+                  We are committed to maintaining good quality, fair pricing, and a reliable buying experience for our customers. With shipping available across India, Dual Turf is built around a simple idea — making it easier for fans to wear what they love.
+                </p>
+              </ScrollReveal>
+              <ScrollReveal direction="up" delay={0.5}>
+                <p className={styles.aboutTagline}>Dual Turf — For Fans, By Fans</p>
+              </ScrollReveal>
+            </div>
+
+            <div className={styles.aboutTeam}>
+              <ScrollReveal direction="up" delay={0.3}>
+                <p className={styles.teamIntro}>With love from the team behind the vision and journey of Dual Turf</p>
+              </ScrollReveal>
+              <div className={styles.foundersList}>
+                <ScrollReveal direction="up" delay={0.4}>
+                  <a href="https://www.instagram.com/deepankar.018?stkn=MThpZm5reTBvOWR5OA==" target="_blank" rel="noopener noreferrer" className={styles.founderCard}>
+                    <div>
+                      <h4 className={styles.founderName}>Deepankar Rout</h4>
+                      <span className={styles.founderRole}>Co-founder</span>
+                    </div>
+                  </a>
+                </ScrollReveal>
+                <ScrollReveal direction="up" delay={0.5}>
+                  <a href="https://www.instagram.com/machine__ak_47?stkn=YTQ1OXNuMDR3Ymwx" target="_blank" rel="noopener noreferrer" className={styles.founderCard}>
+                    <div>
+                      <h4 className={styles.founderName}>Omm Shree Chandan</h4>
+                      <span className={styles.founderRole}>Co-founder</span>
+                    </div>
+                  </a>
+                </ScrollReveal>
+                <ScrollReveal direction="up" delay={0.6}>
+                  <a href="https://www.instagram.com/_asiezz_?stkn=N2UzM2NxZnAxaXJt" target="_blank" rel="noopener noreferrer" className={styles.founderCard}>
+                    <div>
+                      <h4 className={styles.founderName}>Asish Kumar Sahoo</h4>
+                      <span className={styles.founderRole}>Co-founder</span>
+                    </div>
+                  </a>
+                </ScrollReveal>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }

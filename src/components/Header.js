@@ -96,6 +96,9 @@ export default function Header() {
             <div className={styles.shiftingWrapper}>
               <ShiftingDropDown />
             </div>
+            <Link href="/#about-us" className={styles.navLink}>
+              About Us
+            </Link>
             <Link href="/contact" className={styles.navLink}>
               Contact Us
             </Link>
@@ -151,6 +154,7 @@ export default function Header() {
           <nav className={styles.mobileLinks}>
             <Link href="/" onClick={() => setMobileOpen(false)}>Home</Link>
             <Link href="/collections/all" onClick={() => setMobileOpen(false)}>Categories</Link>
+            <Link href="/#about-us" onClick={() => setMobileOpen(false)}>About Us</Link>
             <Link href="/contact" onClick={() => setMobileOpen(false)}>Contact Us</Link>
             {currentUser ? (
               <Link href="/account/orders" onClick={() => setMobileOpen(false)}>My Account & Orders</Link>

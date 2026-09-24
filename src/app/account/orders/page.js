@@ -138,35 +138,126 @@ export default function MyOrdersPage() {
     }
   }
 
-  const handleAction = async (orderId, newStatus) => {
-    if (newStatus === 'Cancelled') {
-      const confirm = window.confirm('Are you sure you want to cancel this order?')
-      if (!confirm) return
-    } else if (newStatus === 'Replacement Requested' || newStatus === 'Return Requested') {
-      const confirm = window.confirm('Are you sure you want to request a replacement? Our team will contact you shortly.')
-      if (!confirm) return
-    }
+  // Cancellation Modal State
+  const [cancellingOrder, setCancellingOrder] = useState(null)
+  const [cancellationReason, setCancellationReason] = useState('Placed order by mistake')
+  const [customReasonNote, setCustomReasonNote] = useState('')
+  const [submittingCancel, setSubmittingCancel] = useState(false)
 
+  const cancellationOptions = [
+    'Placed order by mistake',
+    'Want to change jersey size or style',
+    'Need to change delivery address',
+    'Delivery time taking longer than expected',
+    'Found another option / price issue',
+    'Other reason',
+  ]
+
+  // Calculate policy rules & windows
+  const getTimingInfo = (order) => {
+    const now = Date.now()
+    const createdDate = new Date(order.createdAt || order._createdAt || now)
+    const hoursSinceOrder = (now - createdDate.getTime()) / (1000 * 60 * 60)
+
+    const statusLower = String(order.status || '').toLowerCase()
+    const isDispatched = statusLower.includes('dispatched') || statusLower.includes('shipped') || statusLower.includes('out for delivery')
+    const isDelivered = statusLower.includes('delivered')
+    const isCancelled = statusLower.includes('cancelled')
+    const isExchangeRequested = statusLower.includes('exchange') || statusLower.includes('replacement')
+
+    // Rule 1: Cancellation eligible within 24 hours of placement prior to dispatch
+    const canCancel = !isDispatched && !isDelivered && !isCancelled && hoursSinceOrder <= 24
+
+    // Delivery calculation for 48h exchange rule
+    const deliveryDate = new Date(order.deliveredAt || order.updatedAt || order.createdAt || now)
+    const hoursSinceDelivery = (now - deliveryDate.getTime()) / (1000 * 60 * 60)
+
+    // Rule 2: Exchange eligible within 48 hours of delivery
+    const canExchange = isDelivered && hoursSinceDelivery <= 48 && !isExchangeRequested && !isCancelled
+
+    return {
+      hoursSinceOrder,
+      hoursSinceDelivery,
+      isDispatched,
+      isDelivered,
+      isCancelled,
+      isExchangeRequested,
+      canCancel,
+      canExchange,
+    }
+  }
+
+  const handleOpenCancelModal = (order) => {
+    setCancellingOrder(order)
+    setCancellationReason('Placed order by mistake')
+    setCustomReasonNote('')
+  }
+
+  const handleConfirmCancellation = async () => {
+    if (!cancellingOrder) return
+    const finalReason = customReasonNote.trim()
+      ? `${cancellationReason} — ${customReasonNote.trim()}`
+      : cancellationReason
+
+    setSubmittingCancel(true)
     try {
-      setProcessingId(orderId)
+      setProcessingId(cancellingOrder.orderId)
       const res = await fetch('/api/orders', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orderId, status: newStatus }),
+        body: JSON.stringify({
+          orderId: cancellingOrder.orderId,
+          status: 'Cancelled',
+          cancellationReason: finalReason,
+        }),
       })
       const data = await res.json()
       if (data.success) {
-        setOrders(prev => prev.map(o => o.orderId === orderId ? { ...o, status: newStatus } : o))
-        alert(`Order successfully updated to ${newStatus}`)
+        setOrders(prev => prev.map(o => o.orderId === cancellingOrder.orderId ? { ...o, status: 'Cancelled', cancellationReason: finalReason } : o))
+        alert(`Order #${cancellingOrder.orderId} has been cancelled.`)
+        setCancellingOrder(null)
       } else {
-        alert(data.message || 'Failed to update order')
+        alert(data.message || 'Failed to cancel order')
       }
     } catch (err) {
       console.error(err)
-      alert('An error occurred.')
+      alert('An error occurred while cancelling your order.')
+    } finally {
+      setSubmittingCancel(false)
+      setProcessingId(null)
+    }
+  }
+
+  const handleRequestExchange = async (order) => {
+    const itemsSummary = (order.items || []).map(it => `• ${it.quantity}x ${it.title || it.name} (${it.size})`).join('\n')
+    const text = `💬 *EXCHANGE REQUEST - DUALTURF*
+
+📦 *Order ID:* #${order.orderId}
+👤 *Name:* ${order.customer?.fullName || currentUser?.name || 'Customer'}
+📞 *Phone:* ${order.customer?.phone || ''}
+👕 *Items:*
+${itemsSummary}
+📅 *Order Date:* ${order.createdAt ? new Date(order.createdAt).toLocaleDateString() : 'N/A'}
+
+Reason for exchange: (Please specify size or item exchange details here)`
+
+    const waUrl = `https://wa.me/917656072801?text=${encodeURIComponent(text)}`
+
+    try {
+      setProcessingId(order.orderId)
+      await fetch('/api/orders', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderId: order.orderId, status: 'Exchange Requested' }),
+      })
+      setOrders(prev => prev.map(o => o.orderId === order.orderId ? { ...o, status: 'Exchange Requested' } : o))
+    } catch (err) {
+      console.warn('Status update notice:', err)
     } finally {
       setProcessingId(null)
     }
+
+    window.open(waUrl, '_blank')
   }
 
   // Fallback timeout to prevent infinite loading screen
@@ -301,15 +392,14 @@ export default function MyOrdersPage() {
       ) : (
         <div className={styles.orderList}>
           {orders.map(order => {
-            const isCancellable = order.status?.includes('New Order') || order.status?.includes('Processing') || order.status?.includes('COD Order')
-            const isReturnable = order.status?.includes('Delivered')
+            const timing = getTimingInfo(order)
 
             return (
               <div key={order.orderId} className={styles.orderCard}>
                 <div className={styles.orderHeader}>
                   <div>
                     <h3>Order #{order.orderId}</h3>
-                    <span className={styles.orderDate}>{new Date(order.createdAt).toLocaleDateString()}</span>
+                    <span className={styles.orderDate}>{new Date(order.createdAt || order._createdAt || Date.now()).toLocaleDateString()}</span>
                   </div>
                   <div className={styles.orderStatusBadge}>
                     {order.status}
@@ -319,10 +409,15 @@ export default function MyOrdersPage() {
                 <div className={styles.orderItems}>
                   {(order.items || []).map((item, idx) => (
                     <div key={idx} className={styles.itemRow}>
-                      <span className={styles.itemTitle}>{item.quantity}x {item.title} ({item.size})</span>
+                      <span className={styles.itemTitle}>{item.quantity}x {item.title || item.name} ({item.size})</span>
                       <span className={styles.itemPrice}>₹{item.price * item.quantity}</span>
                     </div>
                   ))}
+                  {order.cancellationReason && (
+                    <div style={{ marginTop: '0.75rem', padding: '0.5rem 0.75rem', background: 'rgba(255, 61, 61, 0.1)', border: '1px solid rgba(255, 61, 61, 0.2)', borderRadius: '6px', fontSize: '0.8rem', color: '#ff7e7e' }}>
+                      <strong>Cancellation Reason:</strong> {order.cancellationReason}
+                    </div>
+                  )}
                 </div>
 
                 <div className={styles.orderFooter}>
@@ -332,30 +427,93 @@ export default function MyOrdersPage() {
                   </div>
                   
                   <div className={styles.actionButtons}>
-                    {isCancellable && (
+                    {timing.canCancel && (
                       <button 
-                        onClick={() => handleAction(order.orderId, 'Cancelled')}
+                        onClick={() => handleOpenCancelModal(order)}
                         disabled={processingId === order.orderId}
                         className={styles.cancelBtn}
                       >
                         {processingId === order.orderId ? 'Processing...' : 'Cancel Order'}
                       </button>
                     )}
-                    
-                    {isReturnable && (
+
+                    {!timing.isCancelled && !timing.isDispatched && !timing.isDelivered && !timing.canCancel && (
+                      <span className={styles.policyBadgeExpired} title="Orders can only be cancelled within 24 hours of placement prior to dispatch">
+                        ⏰ Cancel Window Expired (24h)
+                      </span>
+                    )}
+
+                    {timing.isDispatched && !timing.isDelivered && !timing.isCancelled && (
+                      <span className={styles.policyBadgeExpired}>
+                        🚚 Dispatched (Cannot Cancel)
+                      </span>
+                    )}
+
+                    {timing.canExchange && (
                       <button 
-                        onClick={() => handleAction(order.orderId, 'Replacement Requested')}
+                        onClick={() => handleRequestExchange(order)}
                         disabled={processingId === order.orderId}
                         className={styles.returnBtn}
                       >
-                        {processingId === order.orderId ? 'Processing...' : 'Request Replacement'}
+                        {processingId === order.orderId ? 'Opening WhatsApp...' : '💬 Request Exchange (WhatsApp)'}
                       </button>
+                    )}
+
+                    {timing.isDelivered && !timing.canExchange && !timing.isExchangeRequested && (
+                      <span className={styles.policyBadgeExpired} title="Exchange requests are available within 48 hours of delivery">
+                        ⏰ 48h Exchange Window Passed
+                      </span>
                     )}
                   </div>
                 </div>
               </div>
             )
           })}
+        </div>
+      )}
+
+      {/* Cancellation Reason Modal */}
+      {cancellingOrder && (
+        <div className={styles.modalOverlay} onClick={() => setCancellingOrder(null)}>
+          <div className={styles.cancelModal} onClick={(e) => e.stopPropagation()}>
+            <h3>Cancel Order #{cancellingOrder.orderId}</h3>
+            <p>Please select a reason for cancelling your order:</p>
+
+            <select
+              value={cancellationReason}
+              onChange={(e) => setCancellationReason(e.target.value)}
+              className={styles.reasonSelect}
+            >
+              {cancellationOptions.map((opt) => (
+                <option key={opt} value={opt}>{opt}</option>
+              ))}
+            </select>
+
+            <textarea
+              placeholder="Additional details or notes (optional)..."
+              value={customReasonNote}
+              onChange={(e) => setCustomReasonNote(e.target.value)}
+              className={styles.reasonTextarea}
+            />
+
+            <div className={styles.modalActions}>
+              <button
+                type="button"
+                onClick={() => setCancellingOrder(null)}
+                className={styles.keepOrderBtn}
+              >
+                Keep Order
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmCancellation}
+                disabled={submittingCancel}
+                className={styles.confirmCancelBtn}
+              >
+                {submittingCancel ? 'Cancelling...' : 'Confirm Cancellation'}
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

@@ -313,7 +313,7 @@ export async function POST(request) {
 // PATCH /api/orders — update order status by orderId field (not Firestore doc ID)
 export async function PATCH(request) {
   try {
-    const { orderId, status, firestoreId } = await request.json();
+    const { orderId, status, cancellationReason, firestoreId } = await request.json();
 
     let docRef;
     if (firestoreId) {
@@ -327,10 +327,22 @@ export async function PATCH(request) {
       docRef = snap.docs[0].ref;
     }
 
-    await updateDoc(docRef, { status });
+    const nowIso = new Date().toISOString();
+    const updatePayload = { status, updatedAt: nowIso };
+
+    if (cancellationReason) {
+      updatePayload.cancellationReason = cancellationReason;
+      updatePayload.cancelledAt = nowIso;
+    }
+
+    if (status && status.toLowerCase().includes('delivered')) {
+      updatePayload.deliveredAt = nowIso;
+    }
+
+    await updateDoc(docRef, updatePayload);
     const updated = (await getDoc(docRef)).data();
 
-    if (['Cancelled', 'Return Requested', 'Replacement Requested'].includes(status)) {
+    if (['Cancelled', 'Return Requested', 'Replacement Requested', 'Exchange Requested'].includes(status)) {
       sendActionEmail(updated, status).catch(e => console.error(e));
     }
 

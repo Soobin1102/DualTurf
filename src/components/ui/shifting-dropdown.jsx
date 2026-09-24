@@ -203,13 +203,13 @@ const ClubKits = () => {
           <h3 style={{ fontSize: '0.8125rem', fontWeight: 800, color: '#c4ff3d', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
             <Zap size={14} /> Season 26-27
           </h3>
-          <Link href="/collections/2026-27-season-kits" style={{ display: 'block', fontSize: '0.875rem', color: '#ccc', marginBottom: '0.5rem' }}>
+          <Link href="/products/real-madrid-home---master-version" style={{ display: 'block', fontSize: '0.875rem', color: '#ccc', marginBottom: '0.5rem' }}>
             Real Madrid Home
           </Link>
-          <Link href="/collections/2026-27-season-kits" style={{ display: 'block', fontSize: '0.875rem', color: '#ccc', marginBottom: '0.5rem' }}>
+          <Link href="/products/arsenal-home---master-version" style={{ display: 'block', fontSize: '0.875rem', color: '#ccc', marginBottom: '0.5rem' }}>
             Arsenal Home
           </Link>
-          <Link href="/collections/2026-27-season-kits" style={{ display: 'block', fontSize: '0.875rem', color: '#ccc' }}>
+          <Link href="/products/liverpool-home---player-version" style={{ display: 'block', fontSize: '0.875rem', color: '#ccc' }}>
             Liverpool FC Home
           </Link>
         </div>
@@ -218,14 +218,17 @@ const ClubKits = () => {
           <h3 style={{ fontSize: '0.8125rem', fontWeight: 800, color: '#c4ff3d', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
             <Sparkles size={14} /> Special Edition
           </h3>
-          <Link href="/products/portugal-pantera-negra-special-edition-fan-version" style={{ display: 'block', fontSize: '0.875rem', color: '#ccc', marginBottom: '0.5rem' }}>
+          <Link href="/products/portugal-pantera-negra-special-edition---player-version" style={{ display: 'block', fontSize: '0.875rem', color: '#ccc', marginBottom: '0.5rem' }}>
             Portugal Pantera Negra Special Edition
+          </Link>
+          <Link href="/collections/2026-27-season-kits" style={{ display: 'block', fontSize: '0.875rem', color: '#ccc' }}>
+            View 2026-27 Club Collection →
           </Link>
         </div>
       </div>
 
       <Link
-        href="/collections/all"
+        href="/collections/2026-27-season-kits"
         style={{
           marginLeft: 'auto',
           marginTop: '1rem',
@@ -253,16 +256,13 @@ const InternationalKits = () => {
           <h3 style={{ fontSize: '0.8125rem', fontWeight: 800, color: '#c4ff3d', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
             <Globe size={14} /> National Teams
           </h3>
-          <Link href="/products/portugal-home-fan-version" style={{ display: 'block', fontSize: '0.875rem', color: '#ccc', marginBottom: '0.5rem' }}>
+          <Link href="/products/portugal-home---master-version" style={{ display: 'block', fontSize: '0.875rem', color: '#ccc', marginBottom: '0.5rem' }}>
             Portugal Home
           </Link>
-          <Link href="/products/portugal-2026-away-fan-version" style={{ display: 'block', fontSize: '0.875rem', color: '#ccc', marginBottom: '0.5rem' }}>
-            Portugal 2026 Away
-          </Link>
-          <Link href="/products/spain-home-fan-version" style={{ display: 'block', fontSize: '0.875rem', color: '#ccc', marginBottom: '0.5rem' }}>
+          <Link href="/products/spain-home---player-version" style={{ display: 'block', fontSize: '0.875rem', color: '#ccc', marginBottom: '0.5rem' }}>
             Spain Home
           </Link>
-          <Link href="/products/spain-away-fan-version" style={{ display: 'block', fontSize: '0.875rem', color: '#ccc' }}>
+          <Link href="/products/spain-away---master-version" style={{ display: 'block', fontSize: '0.875rem', color: '#ccc' }}>
             Spain Away
           </Link>
         </div>
@@ -271,17 +271,14 @@ const InternationalKits = () => {
           <h3 style={{ fontSize: '0.8125rem', fontWeight: 800, color: '#c4ff3d', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
             <Shield size={14} /> World Cup Giants
           </h3>
-          <Link href="/products/brazil-home-fan-version" style={{ display: 'block', fontSize: '0.875rem', color: '#ccc', marginBottom: '0.5rem' }}>
+          <Link href="/products/brazil-home---master-version" style={{ display: 'block', fontSize: '0.875rem', color: '#ccc', marginBottom: '0.5rem' }}>
             Brazil Home
           </Link>
-          <Link href="/products/germany-home-fan-version" style={{ display: 'block', fontSize: '0.875rem', color: '#ccc', marginBottom: '0.5rem' }}>
+          <Link href="/products/germany-home---master-version" style={{ display: 'block', fontSize: '0.875rem', color: '#ccc', marginBottom: '0.5rem' }}>
             Germany Home
           </Link>
-          <Link href="/products/france-home-fan-version" style={{ display: 'block', fontSize: '0.875rem', color: '#ccc', marginBottom: '0.5rem' }}>
-            France Home
-          </Link>
-          <Link href="/products/japan-home-fan-version" style={{ display: 'block', fontSize: '0.875rem', color: '#ccc' }}>
-            Japan Home
+          <Link href="/collections/international-kits" style={{ display: 'block', fontSize: '0.875rem', color: '#ccc' }}>
+            View International Collection →
           </Link>
         </div>
       </div>

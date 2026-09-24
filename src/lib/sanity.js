@@ -55,7 +55,10 @@ export async function getAllProducts() {
 
 // Fetch a single product by slug
 export async function getProductBySlug(slug) {
-  return client.fetch(`
+  if (!slug) return null;
+
+  // 1. Try exact match first
+  const exact = await client.fetch(`
     *[_type == "product" && slug.current == $slug][0] {
       _id,
       "id": slug.current,
@@ -74,7 +77,35 @@ export async function getProductBySlug(slug) {
       "image": images[0].asset->url,
       "images": images[].asset->url,
     }
-  `, { slug }, fetchOptions)
+  `, { slug }, fetchOptions);
+
+  if (exact) return exact;
+
+  // 2. Try matching normalized slug (replacing --- with -)
+  const normalizedInput = String(slug).replace(/---/g, '-').replace(/-+/g, '-').toLowerCase();
+  const allProds = await getAllProducts();
+
+  const foundBySlug = (allProds || []).find(p => {
+    const normPSlug = String(p.slug || '').replace(/---/g, '-').replace(/-+/g, '-').toLowerCase();
+    return normPSlug === normalizedInput;
+  });
+
+  if (foundBySlug) return foundBySlug;
+
+  // 3. Fallback keyword matching (e.g., 'portugal-pantera-negra')
+  const keywords = normalizedInput
+    .split('-')
+    .filter(k => k.length > 2 && !['version', 'fan', 'master', 'player', 'special', 'edition'].includes(k));
+
+  if (keywords.length > 0) {
+    const foundByKeyword = (allProds || []).find(p => {
+      const fullText = `${p.title || ''} ${p.name || ''} ${p.slug || ''}`.toLowerCase();
+      return keywords.every(kw => fullText.includes(kw));
+    });
+    if (foundByKeyword) return foundByKeyword;
+  }
+
+  return null;
 }
 
 // Fetch products by category

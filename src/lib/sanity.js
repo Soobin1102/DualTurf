@@ -84,14 +84,14 @@ export async function getProductsByCategory(category) {
     catList = ['2026-27-season-kits', 'club', 'club-kits'];
   } else if (category === 'international-kits' || category === 'international') {
     catList = ['international-kits', 'international'];
-  } else if (category === 'jerseys-with-shorts' || category === 'shorts') {
-    catList = ['jerseys-with-shorts', 'shorts'];
+  } else if (category === 'jerseys-with-shorts' || category === 'shorts' || category === 'sets') {
+    catList = ['jerseys-with-shorts', 'shorts', 'sets'];
   } else if (category === 'retro-classics' || category === 'retro') {
     catList = ['retro-classics', 'retro'];
   }
 
   return client.fetch(`
-    *[_type == "product" && category in $catList && inStock != false] | order(_createdAt desc) {
+    *[_type == "product" && (category in $catList || type in $catList) && inStock != false] | order(_createdAt desc) {
       _id,
       "id": slug.current,
       "slug": slug.current,

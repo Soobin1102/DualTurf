@@ -17,23 +17,16 @@ export default async function CollectionPage({ params }) {
 
   // Filter or query category products
   const categoryProducts = slug === 'all'
-    ? allProducts
+    ? await getAllProducts()
     : await getProductsByCategory(slug);
-
-  // If a specific category has no products uploaded yet, fallback to allProducts so products never vanish
-  const displayProducts = (categoryProducts && categoryProducts.length > 0)
-    ? categoryProducts
-    : allProducts;
-
-  const isFallback = slug !== 'all' && (!categoryProducts || categoryProducts.length === 0);
 
   return (
     <CollectionClient
-      initialProducts={displayProducts}
+      initialProducts={categoryProducts || []}
       categories={CATEGORIES}
       currentSlug={slug}
       title={title}
-      isFallback={isFallback}
+      isFallback={false}
     />
   );
 }

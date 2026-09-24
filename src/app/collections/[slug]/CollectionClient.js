@@ -330,23 +330,43 @@ export default function CollectionClient({
               <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>👕</div>
               <h3 style={{ color: '#fff', fontSize: '1.25rem', marginBottom: '0.5rem' }}>No jerseys found</h3>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', marginBottom: '1.25rem' }}>
-                No products match the selected filters.
+                {hasActiveFilters
+                  ? 'No products match the selected filters.'
+                  : 'No jerseys available in this collection yet. Check back soon!'}
               </p>
-              <button
-                onClick={resetFilters}
-                style={{
-                  background: 'var(--accent-color)',
-                  color: '#000',
-                  border: 'none',
-                  padding: '0.65rem 1.25rem',
-                  borderRadius: 'var(--radius-sm)',
-                  fontWeight: 700,
-                  fontSize: '0.875rem',
-                  cursor: 'pointer',
-                }}
-              >
-                Reset All Filters
-              </button>
+              {hasActiveFilters ? (
+                <button
+                  onClick={resetFilters}
+                  style={{
+                    background: 'var(--accent-color)',
+                    color: '#000',
+                    border: 'none',
+                    padding: '0.65rem 1.25rem',
+                    borderRadius: 'var(--radius-sm)',
+                    fontWeight: 700,
+                    fontSize: '0.875rem',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Reset All Filters
+                </button>
+              ) : (
+                <Link
+                  href="/collections/all"
+                  style={{
+                    display: 'inline-block',
+                    background: 'var(--accent-color)',
+                    color: '#000',
+                    padding: '0.65rem 1.25rem',
+                    borderRadius: 'var(--radius-sm)',
+                    fontWeight: 700,
+                    fontSize: '0.875rem',
+                    textDecoration: 'none',
+                  }}
+                >
+                  Browse All Products
+                </Link>
+              )}
             </div>
           ) : (
             <div className={styles.grid}>

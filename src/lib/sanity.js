@@ -161,6 +161,31 @@ export async function getFeaturedProducts() {
   `, {}, fetchOptions)
 }
 
+// Fetch clearance sale products
+export async function getClearanceSaleProducts() {
+  return client.fetch(`
+    *[_type == "product" && clearanceSale == true && inStock != false] | order(_createdAt desc) {
+      _id,
+      "id": slug.current,
+      "slug": slug.current,
+      name,
+      "title": name,
+      team,
+      category,
+      price,
+      originalPrice,
+      type,
+      sleeve,
+      featured,
+      clearanceSale,
+      description,
+      sizes,
+      "image": images[0].asset->url,
+      "images": images[].asset->url,
+    }
+  `, {}, fetchOptions)
+}
+
 // Search products by name or team
 export async function searchProducts(query) {
   return client.fetch(`

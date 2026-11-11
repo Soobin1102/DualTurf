@@ -98,6 +98,9 @@ export default function Header() {
             <div className={styles.shiftingWrapper}>
               <ShiftingDropDown />
             </div>
+            <Link href="/clearance-sale" className={`${styles.navLink} ${styles.clearanceSaleLink}`}>
+              🔥 Clearance Sale
+            </Link>
             <button onClick={() => setJerseyGuideOpen(true)} className={styles.navLink}>
               Jersey Guide
             </button>
@@ -187,6 +190,7 @@ export default function Header() {
                 </div>
               )}
             </div>
+            <Link href="/clearance-sale" onClick={() => setMobileOpen(false)} className={styles.mobileClearanceLink}>🔥 Clearance Sale</Link>
             <button onClick={() => { setMobileOpen(false); setJerseyGuideOpen(true); }}>Jersey Guide</button>
             <Link href="/#about-us" onClick={() => setMobileOpen(false)}>About Us</Link>
             <Link href="/contact" onClick={() => setMobileOpen(false)}>Contact Us</Link>

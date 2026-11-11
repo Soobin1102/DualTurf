@@ -192,6 +192,25 @@
   }
 }
 
+/* Clearance Sale nav link — orange accent */
+.clearanceSaleLink {
+  color: #ff4d00 !important;
+  border: 1px solid rgba(255, 77, 0, 0.35);
+  background: rgba(255, 77, 0, 0.08) !important;
+
+  &:hover {
+    color: #ffffff !important;
+    background: rgba(255, 77, 0, 0.75) !important;
+    border-color: #ff4d00;
+  }
+}
+
+/* Mobile drawer clearance link */
+.mobileClearanceLink {
+  color: #ff4d00 !important;
+  font-weight: 700;
+}
+
 /* FAR RIGHT CORNER: Search, Account, Cart */
 .rightCorner {
   display: flex;

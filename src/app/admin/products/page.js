@@ -24,7 +24,7 @@ const ALL_SIZES = ['S', 'M', 'L', 'XL', 'XXL'];
 const EMPTY_FORM = {
   name: '', price: '', originalPrice: '', team: '',
   category: '2026-27-season-kits', type: 'master', sleeve: 'short',
-  featured: false, inStock: true, description: '',
+  featured: false, clearanceSale: false, inStock: true, description: '',
   sizes: ['S', 'M', 'L', 'XL', 'XXL'],
 };
 
@@ -79,6 +79,7 @@ export default function AdminProductsPage() {
       type: product.type || 'fan',
       sleeve: product.sleeve || 'short',
       featured: !!product.featured,
+      clearanceSale: !!product.clearanceSale,
       inStock: product.inStock !== false,
       description: product.description || '',
       sizes: product.sizes || ['S', 'M', 'L', 'XL', 'XXL'],
@@ -248,6 +249,7 @@ export default function AdminProductsPage() {
                     <th>Price</th>
                     <th>Stock</th>
                     <th>Featured</th>
+                    <th>🔥 Sale</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -284,6 +286,13 @@ export default function AdminProductsPage() {
                       <td style={{ whiteSpace: 'nowrap' }}>
                         {product.featured ? (
                           <span className={`${styles.badge} ${styles.badgeYellow}`}>⭐ Featured</span>
+                        ) : (
+                          <span style={{ color: 'rgba(255,255,255,0.2)', fontSize: '0.8rem' }}>—</span>
+                        )}
+                      </td>
+                      <td style={{ whiteSpace: 'nowrap' }}>
+                        {product.clearanceSale ? (
+                          <span className={`${styles.badge} ${styles.badgeRed}`}>🔥 Sale</span>
                         ) : (
                           <span style={{ color: 'rgba(255,255,255,0.2)', fontSize: '0.8rem' }}>—</span>
                         )}
@@ -372,6 +381,12 @@ export default function AdminProductsPage() {
                             <div className={styles.accordionDetail}>
                               <span className={styles.accordionDetailLabel}>Homepage</span>
                               <span className={`${styles.badge} ${styles.badgeYellow}`}>⭐ Featured Drop</span>
+                            </div>
+                          )}
+                          {product.clearanceSale && (
+                            <div className={styles.accordionDetail}>
+                              <span className={styles.accordionDetailLabel}>Clearance</span>
+                              <span className={`${styles.badge} ${styles.badgeRed}`}>🔥 On Sale</span>
                             </div>
                           )}
                         </div>
@@ -493,6 +508,10 @@ export default function AdminProductsPage() {
                 <div className={styles.toggleRow}>
                   <span className={styles.toggleLabel}>Featured on Homepage</span>
                   <button type="button" className={`${styles.toggle} ${form.featured ? styles.on : ''}`} onClick={() => setForm(p => ({ ...p, featured: !p.featured }))} />
+                </div>
+                <div className={styles.toggleRow}>
+                  <span className={styles.toggleLabel}>🔥 Clearance Sale</span>
+                  <button type="button" className={`${styles.toggle} ${form.clearanceSale ? styles.on : ''}`} onClick={() => setForm(p => ({ ...p, clearanceSale: !p.clearanceSale }))} />
                 </div>
                 <div className={styles.toggleRow}>
                   <span className={styles.toggleLabel}>In Stock</span>

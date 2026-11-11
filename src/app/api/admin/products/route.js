@@ -30,6 +30,7 @@ export async function GET(request) {
         type,
         sleeve,
         featured,
+        clearanceSale,
         inStock,
         description,
         sizes,
@@ -64,7 +65,7 @@ export async function POST(request) {
     }
 
     const body = await request.json();
-    const { name, price, originalPrice, team, category, type, sleeve, featured, inStock, description, sizes, imageUrls, imageAssetIds } = body;
+    const { name, price, originalPrice, team, category, type, sleeve, featured, clearanceSale, inStock, description, sizes, imageUrls, imageAssetIds } = body;
 
     // Build image references from uploaded asset IDs
     const assetsToUse = imageAssetIds || imageUrls || [];
@@ -91,6 +92,7 @@ export async function POST(request) {
       type: type || 'fan',
       sleeve: sleeve || 'short',
       featured: Boolean(featured),
+      clearanceSale: Boolean(clearanceSale),
       inStock: inStock !== false,
       description: description || '',
       sizes: sizes || ['S', 'M', 'L', 'XL', 'XXL'],
@@ -136,6 +138,7 @@ export async function PATCH(request) {
     if (fields.type !== undefined) patch.type = fields.type;
     if (fields.sleeve !== undefined) patch.sleeve = fields.sleeve;
     if (fields.featured !== undefined) patch.featured = Boolean(fields.featured);
+    if (fields.clearanceSale !== undefined) patch.clearanceSale = Boolean(fields.clearanceSale);
     if (fields.inStock !== undefined) patch.inStock = Boolean(fields.inStock);
     if (fields.description !== undefined) patch.description = fields.description;
     if (fields.sizes !== undefined) patch.sizes = fields.sizes;
